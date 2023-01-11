@@ -1,0 +1,35 @@
+transactions:
+	getAll () {
+    return transactions();
+  }
+  
+	createTransaction (data) {
+    const { value, description, payment_method, card_number, cardholder, validade, cvv } = data
+    
+    //Ultimos 4 digitos do cartão
+    card_number = card_number.slice(-4)
+    
+    createPayable(payment_method)
+  }
+	
+payables:
+  createPayable(payment_method) {
+    if (payment_method === "debito") {
+      status = paid
+      payment_date = today
+      fee = value - 3%
+      value -= fee
+    }
+    if (payment_method === "credito") {
+      status = waiting_funds
+      payment_date = today + 30 days
+      fee = value - 5%
+      value -= fee
+    }
+    
+    getAll () {
+      return saldo
+    }
+    
+    
+  }
