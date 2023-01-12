@@ -17,13 +17,13 @@ payables:
     if (payment_method === "debito") {
       status = paid
       payment_date = today
-      fee = value - 3%
+      fee = 3%
       value -= fee
     }
     if (payment_method === "credito") {
       status = waiting_funds
       payment_date = today + 30 days
-      fee = value - 5%
+      fee = 5%
       value -= fee
     }
     
