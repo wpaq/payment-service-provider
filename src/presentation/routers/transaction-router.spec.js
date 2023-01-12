@@ -1,11 +1,34 @@
 class TransactionRouter {
   async route (httpRequest) {
     const { transactionAmount, cardNumber } = httpRequest.body
-    if (!transactionAmount || !cardNumber) {
-      return {
-        statusCode: 400
-      }
+    if (!transactionAmount) {
+      return HttpResponse.badRequest('transactionAmount')
     }
+    if (!cardNumber) {
+      return HttpResponse.badRequest('cardNumber')
+    }
+  }
+}
+
+class HttpResponse {
+  static badRequest (paramName) {
+    return {
+      statusCode: 400,
+      body: new MissingParamError(paramName)
+    }
+  }
+
+  static serverError () {
+    return {
+      statusCode: 500
+    }
+  }
+}
+
+class MissingParamError extends Error {
+  constructor (paramName) {
+    super(`Missing param: ${paramName}`)
+    this.name = 'MissingParamError'
   }
 }
 
@@ -19,6 +42,7 @@ describe('Transaction Router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('transactionAmount'))
   })
 
   test('Should return 400 if no card number is provided', async () => {
@@ -31,5 +55,6 @@ describe('Transaction Router', () => {
     }
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
+    expect(httpResponse.body).toEqual(new MissingParamError('cardNumber'))
   })
 })
