@@ -11,6 +11,11 @@
     "test:ci": "npm test -- --coverage --silent",
     "prepare": "husky install"
   },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
