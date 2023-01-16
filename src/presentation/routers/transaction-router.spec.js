@@ -26,4 +26,16 @@ describe('Transaction Router', () => {
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('cardNumber'))
   })
+
+  test('Should return 500 if no httpRequest is provided', async () => {
+    const sut = new TransactionRouter()
+    const httpResponse = await sut.route()
+    expect(httpResponse.statusCode).toBe(500)
+  })
+
+  test('Should return 500 if httpRequest has no body', async () => {
+    const sut = new TransactionRouter()
+    const httpResponse = await sut.route({})
+    expect(httpResponse.statusCode).toBe(500)
+  })
 })
