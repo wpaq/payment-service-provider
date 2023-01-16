@@ -1,36 +1,5 @@
-class TransactionRouter {
-  async route (httpRequest) {
-    const { transactionAmount, cardNumber } = httpRequest.body
-    if (!transactionAmount) {
-      return HttpResponse.badRequest('transactionAmount')
-    }
-    if (!cardNumber) {
-      return HttpResponse.badRequest('cardNumber')
-    }
-  }
-}
-
-class HttpResponse {
-  static badRequest (paramName) {
-    return {
-      statusCode: 400,
-      body: new MissingParamError(paramName)
-    }
-  }
-
-  static serverError () {
-    return {
-      statusCode: 500
-    }
-  }
-}
-
-class MissingParamError extends Error {
-  constructor (paramName) {
-    super(`Missing param: ${paramName}`)
-    this.name = 'MissingParamError'
-  }
-}
+const TransactionRouter = require('./transaction-router')
+const MissingParamError = require('../errors/missing-param-error')
 
 describe('Transaction Router', () => {
   test('Should return 400 if no transaction amount is provided', async () => {
